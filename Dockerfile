@@ -1,10 +1,12 @@
+FROM alpine:3.5
+
 LABEL version="1.0"
-LABEL description="Docker Images with OpenSSL S_SERVER \
+LABEL description="Docker Images with OpenSSL \
 The s_server command implements a generic SSL/TLS server \
 which listens for connections on a given port using SSL/TLS."
-FROM httpd
 
-RUN apt-get update && apt-get install -q -y vim curl git openssl libssl-doc wget && apt-get clean 
+RUN apk add --no-cache vim curl openssl wget
+#RUN apt-get update && apt-get install -q -y vim curl git openssl libssl-doc wget && apt-get clean 
 
 ## And create self-signed ssl keys for test purposes (bind mount proper ones to running container)
 RUN openssl req -new -x509 -nodes -out /home/ssl.crt -keyout /home/ssl.key -days 3650 -subj '/CN=localhost'
